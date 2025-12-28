@@ -1,0 +1,21 @@
+name: "FD Pager"
+description: "FD Pager"
+version: "1.0.0"
+slug: "ha-fd-pager"
+init: false
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
+  - i386
+startup: services
+ports:
+  8000/tcp: 8000
+options:
+  api_url: ""
+  api_token: ""
+schema:
+  api_url: str
+  api_token: str
