@@ -6,7 +6,7 @@ def version():
     """
     Returns the version of the application.
     """
-    return '1.1.6'
+    return '1.1.7'
 
 def origin_url():
     """

@@ -9,7 +9,7 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Copy data for add-on
 COPY . $VIRTUAL_ENV/
-RUN pip3 install -r requirements.txt
+RUN pip3 install -r /opt/venv/requirements.txt
 RUN chmod a+x /run.sh
 
-CMD [ "/run.sh" ]
+CMD [ "/opt/venv/run.sh" ]
