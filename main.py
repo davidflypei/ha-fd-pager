@@ -2,10 +2,13 @@ import logging
 import os
 import signal
 import sys
+from asyncio import sleep
+from json import dumps
 
 import helpers.config as cnf
 import helpers.info as i
 import helpers.mqtt_client as m
+import helpers.ha_messages as ha_msgs
 
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -70,6 +73,47 @@ def main():
         client_key=config['mqtt']['tls_keyfile'],
         log_level=LOG_LEVEL,
         logger=logger,
+    )
+
+    # Set Last Will and Testament
+    mqtt_client.set_last_will(
+        topic=f'{config["mqtt"]["base_topic"]}/status',
+        payload="offline",
+        qos=1,
+        retain=False
+    )
+
+    try:
+        mqtt_client.connect()
+    except Exception as e:
+        logger.critical('Failed to connect to MQTT broker: %s', e)
+        sys.exit(1)
+
+
+    # Subscribe to Home Assistant status topic
+    mqtt_client.subscribe(config['mqtt']['ha_status_topic'], qos=1)
+
+    # Start the MQTT client loop
+    mqtt_client.loop_start()
+
+    discovery_payload = ha_msgs.meter_discover_payload(config["mqtt"]["base_topic"], {
+        "id": "pager1",
+        "name": "pager"
+    })
+    mqtt_client.publish(
+        topic=f'{config["mqtt"]["ha_autodiscovery_topic"]}/device/pager1/config',
+        payload=dumps(discovery_payload),
+        qos=1,
+        retain=False
+    )
+
+    sleep(1)
+    # Publish the initial status
+    mqtt_client.publish(
+        topic=f'{config["mqtt"]["base_topic"]}/status',
+        payload='online',
+        qos=1,
+        retain=False
     )
 
     # Shutdown
