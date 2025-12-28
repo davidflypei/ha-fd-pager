@@ -26,3 +26,16 @@ options:
 schema:
   api_url: str
   api_token: str
+  mqtt:
+    host: "str?"
+    port: "int?"
+    user: "str?"
+    password: str?
+    tls_enabled: "bool?"
+    tls_insecure: "bool?"
+    tls_ca: "str?"
+    tls_cert: "str?"
+    tls_keyfile: "str?"
+    ha_autodiscovery_topic: "str?"
+    ha_status_topic: "str?"
+    base_topic: "str?"
