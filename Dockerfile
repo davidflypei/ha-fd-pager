@@ -6,6 +6,9 @@ RUN \
   apk add --no-cache \
     python3
 
+RUN python3 -m ensurepip
+RUN pip3 install --no-cache --upgrade pip setuptools
+
 # Python 3 HTTP Server serves the current working dir
 # So let's set it to our add-on persistent data directory.
 WORKDIR /data
