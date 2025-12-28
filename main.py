@@ -96,7 +96,7 @@ def main():
     # Start the MQTT client loop
     mqtt_client.loop_start()
 
-    discovery_payload = ha_msgs.meter_discover_payload(config["mqtt"]["base_topic"], {
+    discovery_payload = ha_msgs.pager_discover_payload(config["mqtt"]["base_topic"], {
         "id": "pager1",
         "name": "pager"
     })
