@@ -8,8 +8,10 @@ def pager_discover_payload(base_topic, meter_config):
     """
     Returns the discovery payload for Home Assistant.
     """
+    print("test")
 
     if 'id' in meter_config:
+        print("test")
         meter_id = meter_config['id']
         meter_name = meter_config.get('name', 'Unknown Meter')
 
