@@ -1,6 +1,6 @@
 name: "FD Pager"
 description: "FD Pager"
-version: "1.1.0"
+version: "1.1.1"
 slug: "ha-fd-pager"
 init: false
 hassio_api: true
@@ -17,8 +17,10 @@ startup: services
 ports:
   8000/tcp: 8000
 options:
-  api_url: ""
-  api_token: ""
+  general:
+    api_url: ""
+    api_token: ""
+    verbosity: "list(debug|info|warning|critical|none)?"
   mqtt:
     ha_autodiscovery_topic: homeassistant
     ha_status_topic: homeassistant/status

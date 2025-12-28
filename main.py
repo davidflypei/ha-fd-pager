@@ -5,6 +5,7 @@ import sys
 
 import helpers.config as cnf
 import helpers.info as i
+import helpers.mqtt_client as m
 
 # Set up logging
 logger = logging.getLogger(__name__)
