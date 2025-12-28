@@ -8,7 +8,8 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 # So let's set it to our add-on persistent data directory.
 
 # Copy data for add-on
-COPY . $VIRTUAL_ENV/
+COPY . .
+RUN pip3 install -r requirements.txt
 RUN chmod a+x /run.sh
 
 CMD [ "/run.sh" ]
