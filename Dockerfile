@@ -12,4 +12,4 @@ COPY . $VIRTUAL_ENV/
 RUN pip3 install -r /opt/venv/requirements.txt
 RUN chmod a+x /run.sh
 
-CMD [ "/opt/venv/run.sh" ]
+CMD [ "python3", "/opt/venv/main.py" ]
