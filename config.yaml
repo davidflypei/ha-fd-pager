@@ -1,6 +1,6 @@
 name: "FD Pager"
 description: "FD Pager"
-version: "1.1.1"
+version: "1.1.2"
 slug: "ha-fd-pager"
 init: false
 hassio_api: true
@@ -20,14 +20,16 @@ options:
   general:
     api_url: ""
     api_token: ""
-    verbosity: "list(debug|info|warning|critical|none)?"
+    verbosity: info
   mqtt:
     ha_autodiscovery_topic: homeassistant
     ha_status_topic: homeassistant/status
     base_topic: "fd-pager"
 schema:
-  api_url: str
-  api_token: str
+  general:
+    api_url: str
+    api_token: str
+    verbosity: "list(debug|info|warning|critical|none)?"
   mqtt:
     host: "str?"
     port: "int?"
