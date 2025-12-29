@@ -79,8 +79,8 @@ def load_config(config_path=None):
         mqtt = config['mqtt']
     if 'custom_parameters' in config and config['custom_parameters'] is not None:
         custom_parameters = config['custom_parameters']
-    if 'meters' not in config:
-        return ('error', 'No meters section found in config file.', None)
+    # if 'meters' not in config:
+    #     return ('error', 'No meters section found in config file.', None)
     # General section
     general['sleep_for'] = int(general.get('sleep_for', 0))
     general['verbosity'] = str(general.get('verbosity', 'info'))
@@ -123,10 +123,10 @@ def load_config(config_path=None):
         'expire_after',
         'force_update'
     ]
-    for m in config['meters']:
-        # Get only allowed keys and drop anything else
-        m['state_class'] = m.get('state_class', 'total_increasing')  # Default to 'total_increasing' if not set
-        meters[str(m['id'])] = { key: value for key, value in m.items() if key in meters_allowed_keys }
+    # for m in config['meters']:
+    #     # Get only allowed keys and drop anything else
+    #     m['state_class'] = m.get('state_class', 'total_increasing')  # Default to 'total_increasing' if not set
+    #     meters[str(m['id'])] = { key: value for key, value in m.items() if key in meters_allowed_keys }
 
     # Build config
     config = {
