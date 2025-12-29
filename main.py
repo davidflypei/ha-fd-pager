@@ -156,7 +156,7 @@ async def main():
                 data = sse.json()
                 if data is not None:
                     mqtt_client.publish(
-                        topic=f'{config["mqtt"]["base_topic"]}/pager1',
+                        topic=f'{config["mqtt"]["base_topic"]}/triggers/page',
                         payload=data.get("data"),
                         qos=1,
                         retain=False
@@ -165,12 +165,12 @@ async def main():
                     logger.info("No data")
 
 
-    mqtt_client.publish(
-        topic=f'{config["mqtt"]["base_topic"]}/pager1',
-        payload="page",
-        qos=1,
-        retain=False
-    )
+    # mqtt_client.publish(
+    #     topic=f'{config["mqtt"]["base_topic"]}/pager1',
+    #     payload="page",
+    #     qos=1,
+    #     retain=False
+    # )
 
     # Shutdown
     shutdown(
