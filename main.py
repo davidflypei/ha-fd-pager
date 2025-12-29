@@ -136,7 +136,7 @@ async def main():
         async with aconnect_sse(client, "GET", f"{url}?api_key={token}") as event_source:
             events = [sse async for sse in event_source.aiter_sse()]
             (sse,) = events
-            print(sse.event, sse.json())
+            logger.info(sse.data)
 
     mqtt_client.publish(
         topic=f'{config["mqtt"]["base_topic"]}/pager1',
