@@ -6,14 +6,13 @@ import sys
 from asyncio import sleep
 from json import dumps
 
-from httpx_sse import connect_sse, aconnect_sse
+import httpx
+from httpx_sse import aconnect_sse
 
 import helpers.config as cnf
 import helpers.info as i
 import helpers.mqtt_client as m
 import helpers.ha_messages as ha_msgs
-
-from httpx import AsyncClient
 
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -131,7 +130,7 @@ async def main():
 
     logger.info("test8")
 
-    async with AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(60)) as client:
         url = config['general']['api_url']
         token = config['general']['api_token']
         async with aconnect_sse(client, "GET", f"{url}?api_key={token}") as event_source:
