@@ -126,6 +126,14 @@ def main():
 
     logger.info("test8")
 
+    payload = {'reading': "test", 'lastseen': "1234"}
+    mqtt_client.publish(
+        topic=f'{config["mqtt"]["base_topic"]}/pager1/action',
+        payload=dumps(payload),
+        qos=1,
+        retain=False
+    )
+
     # Shutdown
     shutdown(
         mqtt_client = mqtt_client,
