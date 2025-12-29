@@ -28,7 +28,4 @@ def pager_discover_payload(base_topic, meter_config):
         "topic": f"{base_topic}/triggers/page",
         "type": "button_short_press",
     }
-
-    template_payload['components'][f'{meter_id}_reading'].update(meter_config)
-
     return template_payload
