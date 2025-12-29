@@ -135,8 +135,9 @@ async def main():
         url = config['general']['api_url']
         token = config['general']['api_token']
         async with aconnect_sse(client, "GET", f"{url}?api_key={token}") as event_source:
-            async for sse in event_source.aiter_sse():
-                print(sse.event, sse.data, sse.id, sse.retry)
+            events = [sse async for sse in event_source.aiter_sse()]
+            (sse,) = events
+            print(sse.event, sse.json())
 
     mqtt_client.publish(
         topic=f'{config["mqtt"]["base_topic"]}/pager1',
