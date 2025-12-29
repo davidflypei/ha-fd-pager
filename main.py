@@ -109,7 +109,7 @@ def main():
     })
     logger.info("test6")
     mqtt_client.publish(
-        topic=f'{config["mqtt"]["ha_autodiscovery_topic"]}/device/pager1/config',
+        topic=f'{config["mqtt"]["ha_autodiscovery_topic"]}/device_automation/pager1/config',
         payload=dumps(discovery_payload),
         qos=1,
         retain=False

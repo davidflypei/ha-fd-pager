@@ -23,7 +23,6 @@ def pager_discover_payload(base_topic, meter_config):
         "origin": {
             "name":f"{base_topic}",
         },
-        "platform": "device_automation",
         "automation_type": "trigger",
         "payload": "page",
         "topic": f"{base_topic}/triggers/page",
