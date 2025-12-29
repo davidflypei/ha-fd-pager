@@ -1,3 +1,4 @@
+import asyncio
 import logging
 import os
 import signal
@@ -155,4 +156,4 @@ async def main():
 
 if __name__ == '__main__':
     # Call main function
-    main()
+    asyncio.run(main())
