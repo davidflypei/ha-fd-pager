@@ -132,3 +132,9 @@ def main():
         base_topic=config['mqtt']['base_topic'],
         offline=True
     )
+
+
+
+if __name__ == '__main__':
+    # Call main function
+    main()
