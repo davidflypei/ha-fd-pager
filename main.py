@@ -128,7 +128,7 @@ def main():
 
     payload = {"page"}
     mqtt_client.publish(
-        topic=f'{config["mqtt"]["base_topic"]}/pager1/action',
+        topic=f'{config["mqtt"]["base_topic"]}/pager1',
         payload="page",
         qos=1,
         retain=False

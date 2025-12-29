@@ -24,7 +24,6 @@ def pager_discover_payload(base_topic, meter_config):
             "name":f"{base_topic}",
         },
         "automation_type": "trigger",
-        "payload": "page",
         "topic": f"{base_topic}/triggers/page",
         "type": "button_short_press",
         "subtype": "button_1"
