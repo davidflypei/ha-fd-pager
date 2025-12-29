@@ -6,7 +6,7 @@ import sys
 from asyncio import sleep
 from json import dumps
 
-from httpx_sse import connect_sse
+from httpx_sse import connect_sse, aconnect_sse
 
 import helpers.config as cnf
 import helpers.info as i
@@ -131,11 +131,11 @@ async def main():
 
     logger.info("test8")
 
-    async with AsyncClient as client:
+    async with AsyncClient() as client:
         url = config['general']['api_url']
         token = config['general']['api_token']
-        with connect_sse(client, "GET", f"{url}?api_key={token}") as event_source:
-            for sse in event_source.iter_sse():
+        async with aconnect_sse(client, "GET", f"{url}?api_key={token}") as event_source:
+            async for sse in event_source.aiter_sse():
                 print(sse.event, sse.data, sse.id, sse.retry)
 
     mqtt_client.publish(
