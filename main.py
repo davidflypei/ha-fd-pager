@@ -126,7 +126,7 @@ def main():
 
     logger.info("test8")
 
-    payload = {'reading': "test", 'lastseen': "1234"}
+    payload = {"page"}
     mqtt_client.publish(
         topic=f'{config["mqtt"]["base_topic"]}/pager1/action',
         payload=dumps(payload),
