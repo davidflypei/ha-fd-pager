@@ -1,0 +1,1 @@
+{"general": { "api_url": "https://api.fd.3centsmckenna.ca/pager/events", "api_token": "HZBEdKOGufhWziTLDhUr8FcsZ", "verbosity": "debug"}, "mqtt": { "host": "", "ha_autodiscovery_topic": "homeassistant", "ha_status_topic": "homeassistant/status", "base_topic": "fd-pager" }}

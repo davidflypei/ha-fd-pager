@@ -5,9 +5,12 @@ import signal
 import sys
 from asyncio import sleep
 from json import dumps
+from typing import cast, AsyncGenerator
 
 import httpx
 from httpx_sse import aconnect_sse
+from httpx_sse._api import _aiter_sse_lines
+from httpx_sse._decoders import SSEDecoder
 
 import helpers.config as cnf
 import helpers.info as i
@@ -39,6 +42,19 @@ def shutdown(mqtt_client=None, base_topic='fd-pager', offline=False):
 def signal_handler(signum, frame):
     """ Signal handler for SIGINT and SIGTERM """
     raise RuntimeError(f'Signal {signum} received.')
+
+async def aiter_sse_lines(event_source):
+    decoder = SSEDecoder()
+    lines = cast(AsyncGenerator[str, None], _aiter_sse_lines(event_source._response))
+    try:
+        async for line in lines:
+            logger.info(line)
+            line = line.rstrip("\n")
+            sse = decoder.decode(line)
+            if sse is not None:
+                yield sse
+    finally:
+        await lines.aclose()
 
 async def main():
     # Signal handlers/call back
@@ -81,7 +97,7 @@ async def main():
 
     logger.info("test1")
 
-    # Set Last Will and Testament
+    # # Set Last Will and Testament
     mqtt_client.set_last_will(
         topic=f'{config["mqtt"]["base_topic"]}/status',
         payload="offline",
@@ -134,9 +150,20 @@ async def main():
         url = config['general']['api_url']
         token = config['general']['api_token']
         async with aconnect_sse(client, "GET", f"{url}?api_key={token}") as event_source:
-            events = [sse async for sse in event_source.aiter_sse()]
-            (sse,) = events
-            logger.info(sse.data)
+            async for sse in event_source.aiter_sse():
+                logger.info("testing2")
+                logger.info(sse.json())
+                data = sse.json()
+                if data is not None:
+                    mqtt_client.publish(
+                        topic=f'{config["mqtt"]["base_topic"]}/pager1',
+                        payload=data.get("data"),
+                        qos=1,
+                        retain=False
+                    )
+                else:
+                    logger.info("No data")
+
 
     mqtt_client.publish(
         topic=f'{config["mqtt"]["base_topic"]}/pager1',
