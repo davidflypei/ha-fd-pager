@@ -5,10 +5,14 @@ import sys
 from asyncio import sleep
 from json import dumps
 
+from httpx_sse import connect_sse
+
 import helpers.config as cnf
 import helpers.info as i
 import helpers.mqtt_client as m
 import helpers.ha_messages as ha_msgs
+
+from httpx import AsyncClient
 
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -36,7 +40,7 @@ def signal_handler(signum, frame):
     """ Signal handler for SIGINT and SIGTERM """
     raise RuntimeError(f'Signal {signum} received.')
 
-def main():
+async def main():
     # Signal handlers/call back
     signal.signal(signal.SIGTERM, signal_handler)
     signal.signal(signal.SIGINT, signal_handler)
@@ -126,7 +130,13 @@ def main():
 
     logger.info("test8")
 
-    payload = {"page"}
+    async with AsyncClient as client:
+        url = config['general']['api_url']
+        token = config['general']['api_token']
+        with connect_sse(client, "GET", f"{url}?api_key={token}") as event_source:
+            for sse in event_source.iter_sse():
+                print(sse.event, sse.data, sse.id, sse.retry)
+
     mqtt_client.publish(
         topic=f'{config["mqtt"]["base_topic"]}/pager1',
         payload="page",
